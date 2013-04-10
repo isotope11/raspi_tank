@@ -48,3 +48,17 @@ left_motor.stop
 left_motor.speed = 0.5
 # Now the `enable` pin will be high half the time
 ```
+
+## References
+
+The plan presently is to use [ServoBlaster](https://github.com/richardghirst/PiBits/tree/master/ServoBlaster) to manage the motors.
+
+Per JD, here are changes we would want to make to servod.c:
+
+
+[15:05] <          jd> | so this is what I thought it was by default and it looks like that you cannot drive a regular motor from this without changing the defaults.... but that you can do, here is what I would do:
+[15:05] <          jd> | Servo cycle time:    1000us
+[15:05] <          jd> | this would set the frequency of the switching to be 1000 times per second (or every 1000 microseconds)
+[15:07] <          jd> | change this: Maximum width value:   249 (2490us)
+[15:07] <          jd> | to this: Maximum width value:   100
+[15:49] <          jd> | when we leave the pulse width units at "10" us, then we can have a maximum of 100 increments of 10 microseconds, effectively allowing for a maximum of 1000 microseconds HIGH between each pulse (which gets us 100%)
