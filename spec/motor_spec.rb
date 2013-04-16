@@ -1,47 +1,7 @@
 require 'rspec'
 require 'rspec/autorun'
 
-module RaspiTank
-  class OutOfRangeException < StandardError; end
-
-  class Motor
-    def initialize(options={})
-      @forward  = options.fetch(:forward){  raise "forward must be specified"  }
-      @backward = options.fetch(:backward){ raise "backward must be specified" }
-      @enable   = options.fetch(:enable){   raise "enable must be specified"   }
-    end
-  end
-
-  class PiBlasterInterface
-    attr_reader :value
-
-    def initialize(pin)
-      @pin = pin
-      @value = 0
-    end
-
-    def value=(val)
-      validate_value(val)
-      @value = val
-    end
-
-    def pi_blaster_command
-      "echo '#{pin}=#{value}' > /dev/pi-blaster"
-    end
-
-    protected
-    attr_reader :pin
-
-    def validate_value(val)
-      return true if valid_values.cover?(val)
-      raise OutOfRangeException, "Invalid value: #{val}"
-    end
-
-    def valid_values
-      (0..1)
-    end
-  end
-end
+require_relative '../lib/raspi_tank'
 
 include RaspiTank
 
