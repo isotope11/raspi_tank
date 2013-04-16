@@ -59,4 +59,4 @@ Buuuut someone already made the modifications we needed, so we're using [PiBlast
 
 To run the tests:
 
-    ruby spec/motor_spec.rb
+    rake
