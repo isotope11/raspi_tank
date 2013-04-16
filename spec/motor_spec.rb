@@ -17,7 +17,7 @@ module RaspiTank
 
     def initialize(pin)
       @pin = pin
-      @value = 0.0
+      @value = 0
     end
 
     def value=(val)
@@ -25,7 +25,13 @@ module RaspiTank
       @value = val
     end
 
+    def pi_blaster_command
+      "echo '#{pin}=#{value}' > /dev/pi-blaster"
+    end
+
     protected
+    attr_reader :pin
+
     def validate_value(val)
       return true if valid_values.cover?(val)
       raise OutOfRangeException, "Invalid value: #{val}"
@@ -54,7 +60,7 @@ describe PiBlasterInterface do
 
   it "starts off with a value set to 0.0" do
     blaster = PiBlasterInterface.new(11)
-    expect(blaster.value).to eq(0.0)
+    expect(blaster.value).to eq(0)
   end
 
   it "can have its value set from 0 to 1" do
@@ -65,5 +71,12 @@ describe PiBlasterInterface do
     expect(blaster.value).to eq(0)
     expect{ blaster.value = 2  }.to raise_error(OutOfRangeException)
     expect{ blaster.value = -1 }.to raise_error(OutOfRangeException)
+  end
+
+  it "outputs pi-blaster commands" do
+    blaster = PiBlasterInterface.new(11)
+    expect(blaster.pi_blaster_command).to eq("echo '11=0' > /dev/pi-blaster")
+    blaster.value = 1
+    expect(blaster.pi_blaster_command).to eq("echo '11=1' > /dev/pi-blaster")
   end
 end
