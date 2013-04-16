@@ -54,3 +54,9 @@ left_motor.speed = 0.5
 We were going to use [ServoBlaster](https://github.com/richardghirst/PiBits/tree/master/ServoBlaster) to manage the motors.
 
 Buuuut someone already made the modifications we needed, so we're using [PiBlaster](https://github.com/sarfata/pi-blaster/)
+
+## Development
+
+To run the tests:
+
+    ruby spec/motor_spec.rb

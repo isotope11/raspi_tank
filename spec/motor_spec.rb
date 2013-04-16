@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/autorun'
 
 module RaspiTank
   class Motor
