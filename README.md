@@ -6,7 +6,7 @@ It will also include a mode that allows it to export the main object over drb fo
 
 ## API
 
-So the api should look like the following:
+So the api works like the following:
 
 ```ruby
 # Initialize the motor driver objects

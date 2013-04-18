@@ -40,6 +40,10 @@ module RaspiTank
       enable_pin.value = new
     end
 
+    def stop
+      self.speed = 0
+    end
+
     protected
     attr_writer :direction
 

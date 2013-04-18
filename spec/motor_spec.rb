@@ -26,6 +26,12 @@ describe Motor do
     expect(@motor.direction).to eq(:forward)
   end
 
+  it "sets speed to 0 when #stop'ed" do
+    @motor.speed = 1
+    @motor.stop
+    expect(@motor.speed).to eq(0)
+  end
+
   it "starts out with all pins low" do
     expect(@motor.forward_pin.value).to eq(0)
     expect(@motor.enable_pin.value).to eq(0)
