@@ -1,43 +1,35 @@
 module RaspiTank
   class Motor
-    attr_reader :direction, :speed
-
     def initialize(options={})
-      @forward   = options.fetch(:forward){  raise "forward must be specified"  }
-      @backward  = options.fetch(:backward){ raise "backward must be specified" }
-      @enable    = options.fetch(:enable){   raise "enable must be specified"   }
-      @direction = :forward
-      @speed     = 0
+      @pin_number = options.fetch(:pin){  raise "pin must be specified"  }
     end
 
-    def forward_pin
-      @forward_pin ||= PiBlasterInterface.new(@forward)
-    end
-
-    def backward_pin
-      @backward_pin ||= PiBlasterInterface.new(@backward)
-    end
-
-    def enable_pin
-      @enable_pin ||= PiBlasterInterface.new(@enable)
+    def pin
+      @pin ||= PiBlasterInterface.new(@pin_number)
     end
 
     def go_backward
       self.direction = :backward
-      forward_pin.value = 0
-      backward_pin.value = 1
+      pin.value = minimum_speed
     end
 
     def go_forward
       self.direction = :forward
-      forward_pin.value = 1
-      backward_pin.value = 0
+      pin.value = maximum_speed
     end
 
     def speed=(new)
       validate_speed(new)
       @speed = new
       enable_pin.value = new
+    end
+
+    def direction
+      current_value > idle ? :forward : :backward
+    end
+
+    def current_value
+      pin.value
     end
 
     def stop
@@ -53,7 +45,26 @@ module RaspiTank
     end
 
     def valid_speeds
-      (0..1)
+      (minimum_speed..maximum_speed)
+    end
+
+    # in microseconds
+    def minimum_speed
+      1_000 / max_pulse_width
+    end
+
+    # in microseconds
+    def maximum_speed
+      2_000 / max_pulse_width
+    end
+
+    # in microseconds
+    def idle
+      1_500 / max_pulse_width
+    end
+
+    def max_pulse_width
+      10_000
     end
   end
 end
