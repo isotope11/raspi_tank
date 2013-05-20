@@ -9,19 +9,11 @@ module RaspiTank
     end
 
     def go_backward
-      self.direction = :backward
       pin.value = minimum_speed
     end
 
     def go_forward
-      self.direction = :forward
       pin.value = maximum_speed
-    end
-
-    def speed=(new)
-      validate_speed(new)
-      @speed = new
-      enable_pin.value = new
     end
 
     def direction
@@ -37,8 +29,6 @@ module RaspiTank
     end
 
     protected
-    attr_writer :direction
-
     def validate_speed(new)
       return true if valid_speeds.cover?(new)
       raise OutOfRangeException, "Invalid speed: #{new}"
