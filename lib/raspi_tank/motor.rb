@@ -33,7 +33,7 @@ module RaspiTank
     end
 
     def stop
-      self.speed = 0
+      pin.value = idle
     end
 
     protected
@@ -64,7 +64,7 @@ module RaspiTank
     end
 
     def max_pulse_width
-      10_000
+      10_000.to_f
     end
   end
 end

@@ -10,10 +10,12 @@ module RaspiTank
     def value=(val)
       validate_value(val)
       @value = val
+puts val
       write_pin
     end
 
     def write_pin
+      puts pi_blaster_command
       `#{pi_blaster_command}`
     end
 
