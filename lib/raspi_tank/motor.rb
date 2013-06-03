@@ -8,6 +8,13 @@ module RaspiTank
       @pin ||= PiBlasterInterface.new(@pin_number)
     end
 
+    # Set this from -1..1
+    # Maps it to minimum_speed..maximum_speed
+    def analog_speed=(value)
+      pin.value = idle + (value * 500)
+      STDOUT.puts "set to #{value}"
+    end
+
     def go_backward
       pin.value = minimum_speed
     end
