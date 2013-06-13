@@ -11,7 +11,7 @@ module RaspiTank
     # Set this from -1..1
     # Maps it to minimum_speed..maximum_speed
     def analog_speed=(value)
-      pin.value = idle + (value * 500)
+      pin.value = idle + (value * 500)/max_pulse_width
       STDOUT.puts "set to #{value}"
     end
 

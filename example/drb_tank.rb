@@ -2,7 +2,7 @@ require 'drb/drb'
 require_relative '../lib/raspi_tank'
 
 # The URI for the server to connect to
-URI="druby://192.168.1.136:8787"
+URI="druby://0.0.0.0:8787"
 
 class Tank
   include RaspiTank
